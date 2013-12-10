@@ -6,6 +6,7 @@
 __pycache__/
 
 # Settings
+secret_key.py
 
 # Installer logs
 pip-log.txt
