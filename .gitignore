@@ -1,4 +1,48 @@
+
+# Python and Django
 *.log
 *.pot
-*.pyc
-local_settings.py
+*.py[cod]
+__pycache__/
+
+# Settings
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# No database in repo
+*.sqlite3
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# vim and the rest
+*.swp
+*~
