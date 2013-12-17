@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block body %} 
+
+<h1>Create new event!</h1>
+<p>Create new event...</p>
+<input id="event_name_input" type="text" name="Event name">
+<button id="create_button" type="button">Create</button>
+<p id="info"></p>
+
+{% endblock %}
+
+{% block extra_javascript %} 
+
+$("#create_button").click(
+    function(){
+        console.log($("#event_name_input").val());
+        create_event($("#event_name_input").val());
+    }
+);
+
+function create_event(event_name) {
+  $.ajax({
+    url: "/new_event/",
+    type: "POST",
+    data: event_name,
+    cache: true,
+    success: function (data, textStatus, jqXHR) {
+      $("#info").text("Created new event!");
+    },
+    complete: function (jqXHR, textStatus) {},
+    error: function (data, textStatus, errorThrown) {
+      $("#info").text("Created new event!");
+    }
+  });
+}
+
+
+{% endblock %}
+

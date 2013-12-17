@@ -6,5 +6,5 @@ from djangoodle import views
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', views.example, name='example'),
+    url(r'^$', views.home, name='home'),
 )
