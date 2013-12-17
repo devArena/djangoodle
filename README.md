@@ -29,6 +29,27 @@ Create URL to event with hash:
     * Choose event items
 Show current results each event item and sorted list of current best event items
 
+
+Pre-setup and daily usage:
+
+* pip
+    1. pip install -r requirements.txt
+
+
+* Virtualenv
+	0. Install virtualenv: pip install virtualenv
+	1. Create folder "ProjectXY" for virtual environment and gihub project
+	2. Make "ProjectXY" root folder.
+	3. Execute in shell: virtual . 
+	4. Execute in shell: git clone "link sa github-a"
+    5. For every time you want to work on project you must activate virutalenv. For windows execute: source Scripts/activate and for linux: source bin/activate**. 
+ 
+
+* Database migration
+	1. First time only, execute: python manage.py syncdb
+	2. After every github pull (if new migrations exists): python manage.py migrate djangoodle
+
+
 Run it with:
     
     python manage.py runserver
