@@ -48,6 +48,7 @@ Pre-setup and daily usage:
 * Database migration
 	1. First time only, execute: python manage.py syncdb
 	2. After every github pull (if new migrations exists): python manage.py migrate djangoodle
+    3. Run: manage.py schemamigration djangooodle --auto (update the database schema and migrationhistory table to generation N+1.)
 
 
 Run it with:

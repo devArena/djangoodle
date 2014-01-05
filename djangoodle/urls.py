@@ -7,5 +7,6 @@ from djangoodle import views
 
 urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
+    url(r'^(?P<event_id>\d+)/$', views.event_detail, name='event_detail'),
     url(r'^create_event/$', views.create_event, name='create_event'),
-)
+    )

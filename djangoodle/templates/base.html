@@ -12,6 +12,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/csrf.js"></script>
+{% block libraries_javascript %}{% endblock %}
 <script>
-{% block extra_javascript %}{% endblock %}
+{% block inline_javascript %}{% endblock %}
 </script>
