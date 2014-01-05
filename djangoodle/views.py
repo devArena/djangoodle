@@ -7,9 +7,13 @@ from django.utils import timezone
 import datetime
 import json
 
-def home(request):
+def main(request):
     context = RequestContext(request)
-    return render_to_response('home.html', context)
+    return render_to_response('main.html', context)
+
+def event(request):
+    context = RequestContext(request)
+    return render_to_response('event.html', context)
 
 def event_detail(request,event_id):
     context = RequestContext(request)

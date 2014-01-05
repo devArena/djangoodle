@@ -58,7 +58,7 @@ function create_event(event_data) {
     success: function (data, textStatus, jqXHR) {
       $("#info").text("Created new event!");
       if (data != -1) {
-        window.location.replace("http://localhost:8000/"+data);
+        window.location.replace("http://localhost:8000/event/"+data);
         }
       
     },

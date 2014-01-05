@@ -6,7 +6,8 @@ from djangoodle import views
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', views.home, name='home'),
-    url(r'^(?P<event_id>\d+)/$', views.event_detail, name='event_detail'),
+    url(r'^$', views.main, name='main'),
+    url(r'^event/$', views.event, name='event'),
+    url(r'^event/(?P<event_id>\d+)/$', views.event_detail, name='event_detail'),
     url(r'^create_event/$', views.create_event, name='create_event'),
     )
