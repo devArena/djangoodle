@@ -55,3 +55,4 @@ Run it with:
     python manage.py runserver
 
 Now you can open it on [http://localhost:8000/](http://localhost:8000/)
+

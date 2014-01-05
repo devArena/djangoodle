@@ -48,3 +48,8 @@ coverage.xml
 # vim and the rest
 *.swp
 *~
+
+# Floobits
+.floo
+.flooignore
+
