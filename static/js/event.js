@@ -48,7 +48,9 @@ function addEventItem()
                         class: 'item_time'
                     });
 
-  item_time.datetimepicker(); //http://xdsoft.net/jqplugins/datetimepicker/
+  item_time.datetimepicker({
+    format:'d.m.Y H:i'
+  }); //http://xdsoft.net/jqplugins/datetimepicker/
 
   event_item.append(item_category,item_time);
   $("#event_items").append(event_item);

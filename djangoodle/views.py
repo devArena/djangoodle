@@ -37,7 +37,9 @@ def create_event(request):
             event.save()
 
             for item in items:
-                event.eventitem_set.add(EventItem(event_item_name=item['category']))
+                print item['time']
+                time = datetime.datetime.strptime(item['time'], '%d.%m.%Y %H:%M')
+                event.eventitem_set.add(EventItem(event_item_name=item['category'], event_item_time=time))
 
             return HttpResponse(event.id)
         except KeyError:
