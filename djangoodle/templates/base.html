@@ -1,6 +1,7 @@
 <html>
 
 <head>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />  
 {% block extra_head %}{% endblock %}
 </head>
 
@@ -8,11 +9,9 @@
 {% block body %}{% endblock %}
 </body>
 
-</html>
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/csrf.js"></script>
 {% block libraries_javascript %}{% endblock %}
-<script>
-{% block inline_javascript %}{% endblock %}
-</script>
+{% block extra_javascript %}{% endblock %}
+
+</html>

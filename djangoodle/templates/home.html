@@ -1,9 +1,4 @@
-
 {% extends "base.html" %}
-
-{%block extra_head %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.datetimepicker.css" />  
-{% endblock%}
 
 {% block body %} 
 
@@ -26,6 +21,8 @@
 </div>
 
 <div id="event_items">
+
+
 <button id="add_event_item" type="button">Add event item</button>
 </div>
 
@@ -36,7 +33,6 @@
 {% endblock %}
 
 {% block libraries_javascript %} 
-<script src="{{ STATIC_URL }}js/jquery.datetimepicker.js"></script>
-<script src="{{ STATIC_URL }}js/event.js"></script>
+  <script src="{{ STATIC_URL }}js/home.js"></script>
 {% endblock %}
 

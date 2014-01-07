@@ -2,8 +2,9 @@ $("document").ready( function() {
     
     addEventItem();
 
-    //$('#datetimepicker').datetimepicker();
-
+    $('.input-append.date').datetimepicker({
+      language: 'en'
+    });
 });
 
 $("#create_button").click(
@@ -42,13 +43,8 @@ function addEventItem()
                         type: 'text',
                         class: 'item_category'
                     });
-
-  item_time = $("<input/>", {
-                        type: 'text',
-                        class: 'item_time'
-                    });
-
-  item_time.datetimepicker(); //http://xdsoft.net/jqplugins/datetimepicker/
+  
+  
 
   event_item.append(item_category,item_time);
   $("#event_items").append(event_item);
@@ -63,7 +59,7 @@ function create_event(event_data) {
     success: function (data, textStatus, jqXHR) {
       $("#info").text("Created new event!");
       if (data != -1) {
-        window.location.replace("http://localhost:8000/event/"+data);
+        window.location.replace("http://localhost:8000/"+data);
         }
       
     },
@@ -72,5 +68,4 @@ function create_event(event_data) {
       $("#info").text("Error with event creation!");
     }
   });
-
 }
