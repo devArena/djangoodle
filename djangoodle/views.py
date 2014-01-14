@@ -2,8 +2,9 @@
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.template.context import RequestContext
-from djangoodle.models import Event, EventItem
+from djangoodle.models import Event, EventItem, Participant
 from django.utils import timezone
+from django.core import serializers
 import datetime
 import json
 
@@ -45,4 +46,38 @@ def create_event(request):
         except KeyError:
             HttpResponseServerError("Malformed data!")
     return HttpResponse(-1)
+
+
+def add_participant(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print data
+        try:
+            p_name = data['participant_name']
+            event_id = data['event_id']
+            selected_items = data['selected_items']
+                        
+            participant = Participant(name=p_name)
+
+            event = Event.objects.get(pk=event_id)
+            event.participant_set.add(participant)
+            
+            participant.event_items.add(*selected_items)
+
+            # return_data = [{
+            #     'event': event,
+            #     'event_items': event.eventitem_set.all().values_list('event_item_name', 'event_item_time'),
+            # }]
+
+            #return HttpResponse(serializers.serialize("json", return_data))
+
+            # return_data ={
+            #                 'event': event,
+            #                 'event_items': event.eventitem_set.all()
+            #             }
+            #print serializers.serialize("json", return_data)
+            return HttpResponse(1)
+        except KeyError:
+            HttpResponseServerError("Malformed data!")
+    return HttpResponse(-1) 
 

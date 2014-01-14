@@ -3,9 +3,10 @@
 
 {% block body %} 
 
-<h1>{{ event.name }}</h1>
-<p>{{ event.description }}</p>
-<p>{{ event.date }}</p>
+<h1>Event name: {{ event.name }}</h1>
+<p>Event description: {{ event.description }}</p>
+<p>Event date: {{ event.date }}</p>
+<p>Event id: {{ event.id }}</p>
 
 <div id="event_item_list">
     {% for event_item in event_item_list %}
@@ -25,16 +26,42 @@
     <button id="add_participant" type="button">Add participant</button>
 </div>
 
+<p id="info_add_participant"></p>
+
 {% endblock %}
 
 {% block extra_javascript %}
-<script>
+<script type="text/javascript">
   
+  var event_id = "{{event.id}}"; 
+
   $("#add_participant").click(function() {
     var selected_items = $.map($("#event_item_list input:checked"),function(t){return t.id;});
     var participant_name = $("#participant_name").val();
-    console.log( selected_items );
-    console.log( participant_name );
+
+    var participant_data = {};
+    participant_data.selected_items = selected_items;
+    participant_data.participant_name = participant_name;
+    participant_data.event_id = event_id;
+    console.log(participant_data);
+
+    $.ajax({
+        url: "/add_participant/",
+        type: "POST",
+        data: JSON.stringify(participant_data),
+        cache: true,
+        success: function (data, textStatus, jqXHR) {
+          $("#info_add_participant").text("Added new participant!");
+          // if (data != -1) {
+          //   window.location.replace("http://localhost:8000/event/"+data);
+          //   }
+        },
+        complete: function (jqXHR, textStatus) {},
+        error: function (data, textStatus, errorThrown) {
+          $("#info_add_participant").text("Error with adding new participant!");
+        }
+    });
+
   });
 
 </script>
