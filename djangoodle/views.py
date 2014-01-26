@@ -19,10 +19,13 @@ def event(request):
 def event_detail(request,event_id):
     # context = RequestContext(request)
     e = get_object_or_404(Event, pk=event_id)
+    e_items = e.eventitem_set.all()
     # return render_to_response('eventdetail.html', context)
     return render(request, 'event_detail.html', {
         'event': e,
-        'event_item_list': e.eventitem_set.all(),
+        'event_item_list': e_items,
+        'event_item_id_list': e_items.values_list("id", flat=True),
+        'participant_list': e.participant_set.all()
     })
 
 def create_event(request):
@@ -76,5 +79,31 @@ def add_participant(request):
             return HttpResponseServerError(e.message, type(e))
 
     return HttpResponseServerError("Error!")
- 
+
+def get_participants(request, event_id):
+    if request.method == 'GET':
+
+        try:
+            event = Event.objects.get(pk=event_id)
+            participants = event.participant_set.all()
+
+            return_data = {
+                'success':True,
+                'participants':[]
+            }
+
+            for par in participants:                   
+                return_data['participants'].append({
+                    'participant_id': par.id,
+                    'participant_name':par.name,
+                    'selected_items':map(str, par.event_items.values_list('id', flat=True).order_by('id'))
+                })                
+
+            #print return_data
+
+            return HttpResponse(json.dumps(return_data), content_type="application/json")
+        except Exception as e:
+            return HttpResponseServerError(e.message, type(e))
+
+    return HttpResponseServerError("Error!")
 

@@ -1,6 +1,25 @@
 
 {% extends "base.html" %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" />  
+{% endblock %}
+
 {% block body %} 
-<p>Bok</p>
+
+<div class="container">
+
+<div class="header">
+<p>LOGO</p>
+</div>
+
+<div class="row-fluid">
+<div class ="span4">
+    <div class="jumbotron">
+    <h1>Schedule your <b>meetings</b> and <b>events</b> with pleasure!</h1>
+    <button type="button" class="btn btn-schedule btn-lg">Schedule an event</button>    
+    </div>
+</div>
+</div>
+</div>
 {% endblock %}

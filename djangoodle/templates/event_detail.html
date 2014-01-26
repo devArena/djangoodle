@@ -8,19 +8,34 @@
 <p>Event date: {{ event.date }}</p>
 <p>Event id: {{ event.id }}</p>
 
-<div id="event_item_list">
-    {% for event_item in event_item_list %}
-    <p>{{ event_item.event_item_time }}</p>
-    <p>{{ event_item.event_item_name }}</p>
-    <p>{{ event_item.id }}</p>
-    <input type="checkbox" id="{{ event_item.id }}"><br>
-    {% endfor %}
+<div>
+    <button id="refresh_table" type="button">Refresh!</button>
 </div>
 
-<div>
-<label for="participant_name">Name:</label>
-<input id="participant_name" type="text" name="participant_name">
-</div>
+<table id="event_table">
+<tbody>
+<tr id="event_table_header">
+    <td></td>
+    {% for event_item in event_item_list %}
+    <td id="event_item_{{event_item.id}}">
+        <p>{{ event_item.event_item_time }}</p>
+        <p>{{ event_item.event_item_name }}</p>       
+    </td>   
+    {% endfor %}
+</tr>
+<tr id="new_participant">
+    <td>
+        <label for="participant_name">Name:</label>
+        <input id="participant_name" type="text" name="participant_name">
+    </td>
+    {% for event_item in event_item_list %}
+    <td>
+        <input type="checkbox" id="{{ event_item.id }}">        
+    </td>   
+    {% endfor %}
+</tr>
+</tbody>
+</table>
 
 <div>
     <button id="add_participant" type="button">Add participant</button>
@@ -34,6 +49,8 @@
 <script type="text/javascript">
   
   var event_id = "{{event.id}}"; 
+  //console.log(event_id);
+  var event_items_id = {{event_item_id_list}};
   
 </script>
 {% endblock %}

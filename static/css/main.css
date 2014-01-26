@@ -1,0 +1,32 @@
+body {
+     background: url('http://images2.layoutsparks.com/1/102832/calm-blue-striped-pattern.jpg');
+     background-size: 256px 256px;
+     background-repeat:repeat;   
+}
+
+h1
+{
+    font-size: xx-large !important;
+}
+
+.jumbotron{
+    height: 90%;
+    background-color: white;
+    text-align: center;
+}
+
+.btn-schedule{
+    color: #737ACA;
+    background-color:rgba(115, 122, 202, 0.3);
+    border: 0;
+    font-size: 28px;
+    border-radius: 12px;
+}
+
+@media screen and (min-width: 800px) {
+.container{
+    width: 80%;
+    margin: 0 auto;    
+    }
+}
+
