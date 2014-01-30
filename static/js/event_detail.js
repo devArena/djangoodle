@@ -24,6 +24,7 @@ $("#add_participant").click(function() {
             $("#info_add_participant").text("Added new participant!");
             reset_participant_input();
             render_participant(data);
+            refresh_stats();
           }
           else
           {
@@ -44,7 +45,7 @@ $("#refresh_table").click(function(){
 
 function refresh_table()
 {
-  //console.log("refresh");
+  //+console.log("refresh");
   $.ajax({
       url:"/get_participants/" + event_id + "/",
       type:"GET",
@@ -58,7 +59,8 @@ function refresh_table()
           {
             render_participant(data.participants[i]);
           }
-          $("#info_add_participant").text("Table refreshed!");          
+          $("#info_add_participant").text("Table refreshed!"); 
+          refresh_stats();         
         }
         else
         {
@@ -69,7 +71,7 @@ function refresh_table()
       error: function(data, textStatus, errorThrown){
         $("#info_add_participant").text("Error with refreshing table");
       }
-  });  
+  });    
 }
 
 function reset_table()
@@ -84,8 +86,7 @@ function reset_participant_input()
   $("#new_participant input:checked").attr('checked', false);
 }
 
-function render_participant(participant_data)
-{
+function render_participant(participant_data){
   var par = $('<tr>');
   par.attr('id', 'participant_'+participant_data.participant_id);
   par.append($('<td><p>'+ participant_data.participant_name +'</p></td>'));
@@ -94,16 +95,32 @@ function render_participant(participant_data)
   sel_items = participant_data.selected_items;
   for(var i=0;i<event_items_id.length;i++)
   {
+    var td = $('<td>');
+    td.attr('id', event_items_id[i]);
     if(j < sel_items.length && event_items_id[i] === +sel_items[j])
     {
-      par.append('<td><img src="http://www.packvol.com/img/checked.gif"/></td>');
+      td.append('<img src="http://www.packvol.com/img/checked.gif"/>');
+      td.addClass('selected');
       j++;
     }
     else
     {
-      par.append('<td><img src="http://www.packvol.com/img/unchecked.gif"/></td>');
+      td.append('<img src="http://www.packvol.com/img/unchecked.gif"/>');
+      td.addClass('not-selected');
     }
+    par.append(td);
   }
 
   $('#new_participant').before(par);
+}
+
+function refresh_stats(){
+
+  for(var i=0;i<event_items_id.length;i++)
+  {
+    var id = event_items_id[i];
+    var num_of_sel = $('td.selected[id='+ id +']').length;
+    $('#stat_' +id).text(num_of_sel);
+  }
+
 }
