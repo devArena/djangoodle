@@ -12,4 +12,6 @@ urlpatterns = patterns('',
     url(r'^create_event/$', views.create_event, name='create_event'),
     url(r'^add_participant/$', views.add_participant, name='add_participant'),
     url(r'^get_participants/(?P<event_id>\d+)/', views.get_participants, name='get_participants'),
+    url(r'^delete_participant/$', views.delete_participant, name='delete_participant'),
+    url(r'^edit_participant/$', views.edit_participant, name='edit_participant'),
     )

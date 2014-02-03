@@ -53,8 +53,7 @@ def create_event(request):
 
 def add_participant(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        
+        data = json.loads(request.body)        
         try:
             p_name = data['participant_name']
             event_id = data['event_id']
@@ -106,4 +105,40 @@ def get_participants(request, event_id):
             return HttpResponseServerError(e.message, type(e))
 
     return HttpResponseServerError("Error!")
+
+def delete_participant(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            participant_id = data['participant_id']
+            participant = Participant.objects.get(pk=participant_id)
+            participant.delete()
+            return HttpResponse(json.dumps({'success':True}), content_type="application/json")
+        except Exception as e:
+            return HttpResponseServerError(e.message, type(e))
+
+    return HttpResponseServerError("Error!")
+
+def edit_participant(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            participant_id = data['participant_id']
+            p_name = data['participant_name']
+            sel_items = data['selected_items']
+
+            participant = Participant.objects.get(pk=participant_id)
+            participant.name = p_name
+
+            participant.event_items.clear()
+            participant.event_items.add(*sel_items)
+
+            participant.save()
+
+            return HttpResponse(json.dumps({'success':True}), content_type="application/json")
+        except Exception as e:
+            return HttpResponseServerError(e.message, type(e))
+
+    return HttpResponseServerError("Error!")
+
 
