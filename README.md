@@ -50,21 +50,27 @@ Pre-setup and daily usage:
         On Ubuntu do the following:
         -----------------------------------
         Now using pip install :
-	$ sudo pip install virtualenv virtualenvwrapper
+        ```
+	sudo pip install virtualenv virtualenvwrapper
+	```
 
 	Creating directory for our virtual environments
 
-	$ mkdir ~/.virtualenvs
+	```
+	mkdir ~/.virtualenvs
+	```
 
-	Configuring bash to work with a virtualenvwrapper (add these lines to the end of ~/.bashrc (or ~/.zshrc) and 		proceed with relogin)
-
+	Configuring bash to work with a virtualenvwrapper (add these lines to the end of ~/.bashrc )
+	```
 	export WORKON_HOME=$HOME/.virtualenvs
 	source /usr/local/bin/virtualenvwrapper.sh
 	export PIP_VIRTUALENV_BASE=$WORKON_HOME
+	```
 
-	Done. You can work within virtual environments from now on and use pip for installing libs and applications without affecting system wide
-
-	$ mkvirtualenv myfirstenv
+	Done. You can work within virtual environments from now on 
+	```
+	mkvirtualenv myfirstenv
+	```
 	-----------------------------------------
 
 	4. Execute in shell: 
