@@ -63,11 +63,15 @@ function create_event(event_data) {
     data: event_data,
     cache: true,
     success: function (data, textStatus, jqXHR) {
-      $("#info").text("Created new event!");
-      if (data != -1) {
-        //Need universal url 
-        window.location.replace("http://localhost:8000/event/"+data);
-        }
+      if(data.success)
+          {
+            $("#info").text("Created new event!");
+            window.location.replace("http://localhost:8000/event/"+data.id);
+          }
+          else
+          {
+            $("#info").text("Something wrong with creating new event!");
+          }
       
     },
     complete: function (jqXHR, textStatus) {},

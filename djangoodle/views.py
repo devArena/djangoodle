@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.core import serializers
 import datetime
 import json
+import uuid
 
 def main(request):
     context = RequestContext(request)
@@ -37,7 +38,8 @@ def create_event(request):
             email = data['email']
             items = data['items']
             # If time_of_creation is handled by database default value
-            event = Event(name=name, description=description, email_of_creator=email)
+	    event_id = str(uuid.uuid4())[1:8]
+	    event = Event(name=name, description=description, email_of_creator=email, id = event_id)
             event.save()
 
             for item in items:
@@ -45,7 +47,11 @@ def create_event(request):
                 time = datetime.datetime.strptime(item['time'], '%d.%m.%Y %H:%M')
                 event.eventitem_set.add(EventItem(event_item_name=item['category'], event_item_time=time))
 
-            return HttpResponse(event.id)
+            return_data = {
+                'success':True,
+                'id':event.id,
+            }
+            return HttpResponse(json.dumps(return_data), content_type="application/json") 
         except KeyError:
             HttpResponseServerError("Malformed data!")
     return HttpResponse(-1)

@@ -7,7 +7,8 @@ class Event(models.Model):
     description = models.TextField()
     time_of_creation = models.DateTimeField(default=datetime.datetime.now())
     email_of_creator = models.EmailField()
-
+    id = models.CharField(max_length=50, primary_key=True) 
+    
     def __unicode__(self):
         return self.name
 
