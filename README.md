@@ -32,11 +32,6 @@ Show current results each event item and sorted list of current best event items
 
 Pre-setup and daily usage:
 
-* pip
-    
-    ```
-    pip install -r requirements.txt
-    ```
 
 * Virtualenv
 	0. Install virtualenv: 
@@ -52,12 +47,35 @@ Pre-setup and daily usage:
         ```
         virtual . 
         ```
+        On Ubuntu do the following:
+        -----------------------------------
+        Now using pip install :
+	$ sudo pip install virtualenv virtualenvwrapper
+
+	Creating directory for our virtual environments
+
+	$ mkdir ~/.virtualenvs
+
+	Configuring bash to work with a virtualenvwrapper (add these lines to the end of ~/.bashrc (or ~/.zshrc) and 		proceed with relogin)
+
+	export WORKON_HOME=$HOME/.virtualenvs
+	source /usr/local/bin/virtualenvwrapper.sh
+	export PIP_VIRTUALENV_BASE=$WORKON_HOME
+
+	Done. You can work within virtual environments from now on and use pip for installing libs and applications without affecting system wide
+
+	$ mkvirtualenv myfirstenv
+	-----------------------------------------
 
 	4. Execute in shell: 
 
         ```
         git clone "link sa github-a"
-        ```
+        ```* pip
+    	
+	 ```
+    	pip install -r requirements.txt
+        
 
     5. For every time you want to work on project you must activate virutalenv. For windows execute: 
         
