@@ -38,8 +38,8 @@ def create_event(request):
             email = data['email']
             items = data['items']
             # If time_of_creation is handled by database default value
-	    event_id = str(uuid.uuid4())[1:8]
-	    event = Event(name=name, description=description, email_of_creator=email, id = event_id)
+            event_id = str(uuid.uuid4())[1:8]
+            event = Event(name=name, description=description, email_of_creator=email, id = event_id)
             event.save()
 
             for item in items:
