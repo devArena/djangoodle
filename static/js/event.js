@@ -66,7 +66,7 @@ function create_event(event_data) {
       if(data.success)
           {
             $("#info").text("Created new event!");
-            window.location.replace("http://localhost:8000/event/"+data.id);
+            window.location.replace(data.id);
           }
           else
           {
