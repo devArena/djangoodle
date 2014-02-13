@@ -1,43 +1,145 @@
 $( document ).ready(function() {
     
-     refresh_table();
+    $("#refresh_table").click(function(){refresh_table()});
+    $("#add_participant").click(function() {add_participant();});
+
+    refresh_table();
 });
 
-$("#add_participant").click(function() {
-    participant_data = extract_participant_data('#new_participant');
 
-    $.ajax({
-        url: "/add_participant/",
+function add_participant(){
+  participant_data = extract_participant_data('#new_participant');
+
+  $.ajax({
+      url: "/add_participant/",
+      type: "POST",
+      data: JSON.stringify(participant_data),
+      cache: true,
+      success: function (data, textStatus, jqXHR) {
+        if(data.success)
+        {
+          $("#info").text("Added new participant!");
+          reset_participant_input();
+          render_participant(data);
+          refresh_stats();
+        }
+        else
+        {
+          $("#info").text("Something wrong with adding new participant!");
+        }
+      },
+      complete: function (jqXHR, textStatus) {},
+      error: function (data, textStatus, errorThrown) {
+        $("#info").text("Error with adding new participant!");
+      }
+  });
+}
+
+function delete_participant(participant_id) {
+
+  // console.log(participant_id);
+
+  $.ajax({
+      url: "/delete_participant/",
+      type: "POST",
+      data: JSON.stringify({'participant_id':participant_id}),
+      cache: true,
+      success: function (data, textStatus, jqXHR) {
+        if(data.success)
+        {
+          refresh_table();
+        }
+        else
+        {
+          $("#info").text("Error with deleting participant!");
+        }
+      },
+      complete: function (jqXHR, textStatus) {},
+      error: function (data, textStatus, errorThrown) {
+        $("#info").text("Error with deleting participant!");
+      }
+  });
+}
+
+function edit_participant(participant_data) {
+
+    var par_id = participant_data.participant_id;
+    var par_name = participant_data.participant_name;
+    var sel_items = participant_data.selected_items;
+    
+    //console.log(participant_data);
+
+    var par_row_id = '#participant_' + par_id;
+    var tr_par = $(par_row_id);
+    tr_par.empty();    
+
+    // label_par_name = $('<label>Name:</label>');
+    input_par_name = $('<input type="text" id="participant_name"/>');
+    input_par_name.val(par_name);
+
+    save_btn = $('<span id="save_id_' + participant_data.participant_id + '" class="glyphicon glyphicon-ok"></span>')
+    save_btn.click(function(){save_edit_participant(par_id)});
+    cancel_btn = $('<span id="cancel_id_' + participant_data.participant_id + '" class="glyphicon glyphicon-remove"></span>')
+    cancel_btn.click(function(){cancel_edit_participant(participant_data)});
+
+    var td_par = $('<td>');
+    td_par.append(input_par_name, save_btn, cancel_btn);
+    tr_par.append(td_par);
+
+    var j = 0;
+    for(var i=0;i<event_items_id.length;i++)
+    {
+      var td = $('<td>');
+      td.attr('id', event_items_id[i]);
+      var chbx = $('<input type="checkbox" id='+ event_items_id[i] + '>');
+      if(j < sel_items.length && event_items_id[i] === +sel_items[j])
+      {   
+        j++;
+        chbx.attr('checked',true);
+      }      
+      td.append(chbx);
+      tr_par.append(td);
+    }  
+}
+
+function save_edit_participant(participant_id){
+  participant_data = extract_participant_data('#participant_' + participant_id);
+  participant_data.participant_id = participant_id;
+
+  $.ajax({
+        url: "/edit_participant/",
         type: "POST",
         data: JSON.stringify(participant_data),
         cache: true,
         success: function (data, textStatus, jqXHR) {
           if(data.success)
           {
-            $("#info").text("Added new participant!");
-            reset_participant_input();
-            render_participant(data);
-            refresh_stats();
+            $("#info").text("Edited participant!");            
+            refresh_table();
           }
           else
           {
-            $("#info").text("Something wrong with adding new participant!");
+            $("#info").text("Something wrong with editing participant!");
           }
         },
         complete: function (jqXHR, textStatus) {},
         error: function (data, textStatus, errorThrown) {
-          $("#info").text("Error with adding new participant!");
+          $("#info").text("Error with editing participant!");
         }
     });
+}
 
-  });
+function cancel_edit_participant(participant_data){
+    var par_id = participant_data.participant_id;
+    
+    var par_row_id = '#participant_' + par_id;
+    var tr_par = $(par_row_id);
+    tr_par.empty();
 
-$("#refresh_table").click(function(){
-    refresh_table()
-});
+    render_participant(participant_data, tr_par, false);
+}
 
-function refresh_table()
-{
+function refresh_table(){
   //+console.log("refresh");
   $.ajax({
       url:"/get_participants/" + event_id + "/",
@@ -67,14 +169,12 @@ function refresh_table()
   });    
 }
 
-function reset_table()
-{
+function reset_table(){
   //remove <tr> that represent participants
   $('tr[id^=participant]').remove();
 }
 
-function reset_participant_input()
-{
+function reset_participant_input(){
   $("#participant_name").val("");
   $("#new_participant input:checked").attr('checked', false);
 }
@@ -122,7 +222,6 @@ function render_participant(participant_data, dest_tr, is_new){
 
   $('#delete_id_'+participant_data.participant_id).click(function(){delete_participant(participant_data.participant_id);});
   $('#edit_id_'+participant_data.participant_id).click(function(){edit_participant(participant_data);});
-
 }
 
 function refresh_stats(){
@@ -133,121 +232,6 @@ function refresh_stats(){
     var num_of_sel = $('td.selected[id='+ id +']').length;
     $('#stat_' +id).text(num_of_sel);
   }
-
-}
-
-function delete_participant(participant_id) {
-
-    // console.log(participant_id);
-
-    $.ajax({
-        url: "/delete_participant/",
-        type: "POST",
-        data: JSON.stringify({'participant_id':participant_id}),
-        cache: true,
-        success: function (data, textStatus, jqXHR) {
-          if(data.success)
-          {
-            refresh_table();
-          }
-          else
-          {
-            // $("#info").text("Something wrong with adding new participant!");
-          }
-        },
-        complete: function (jqXHR, textStatus) {},
-        error: function (data, textStatus, errorThrown) {
-          // $("#info").text("Error with adding new participant!");
-        }
-    });
-
-  }
-
-function edit_participant(participant_data) {
-
-    var par_id = participant_data.participant_id;
-    var par_name = participant_data.participant_name;
-    var sel_items = participant_data.selected_items;
-    
-    //console.log(participant_data);
-
-    var par_row_id = '#participant_' + par_id;
-    var tr_par = $(par_row_id);
-    tr_par.empty();    
-
-    // label_par_name = $('<label>Name:</label>');
-    input_par_name = $('<input type="text" id="participant_name"/>');
-    input_par_name.val(par_name);
-
-    save_btn = $('<span id="save_id_' + participant_data.participant_id + '" class="glyphicon glyphicon-ok"></span>')
-    save_btn.click(function(){save_edit_participant(par_id)});
-    cancel_btn = $('<span id="cancel_id_' + participant_data.participant_id + '" class="glyphicon glyphicon-remove"></span>')
-    cancel_btn.click(function(){cancel_edit_participant(participant_data)});
-
-    var td_par = $('<td>');
-    td_par.append(input_par_name, save_btn, cancel_btn);
-    tr_par.append(td_par);
-
-    var j = 0;
-    for(var i=0;i<event_items_id.length;i++)
-    {
-      var td = $('<td>');
-      td.attr('id', event_items_id[i]);
-      var chbx = $('<input type="checkbox" id='+ event_items_id[i] + '>');
-      if(j < sel_items.length && event_items_id[i] === +sel_items[j])
-      {   
-        j++;
-        chbx.attr('checked',true);
-      }
-      // else
-      // {
-      //   td.append('<img src="http://www.packvol.com/img/unchecked.gif"/>');
-      //   td.addClass('not-selected');
-      // }
-      td.append(chbx);
-      tr_par.append(td);
-    }  
-}
-
-function save_edit_participant(participant_id){
-  participant_data = extract_participant_data('#participant_' + participant_id);
-  participant_data.participant_id = participant_id;
-
-  $.ajax({
-        url: "/edit_participant/",
-        type: "POST",
-        data: JSON.stringify(participant_data),
-        cache: true,
-        success: function (data, textStatus, jqXHR) {
-          if(data.success)
-          {
-            $("#info").text("Edited participant!");            
-            refresh_table();
-          }
-          else
-          {
-            $("#info").text("Something wrong with adding new participant!");
-          }
-        },
-        complete: function (jqXHR, textStatus) {},
-        error: function (data, textStatus, errorThrown) {
-          $("#info").text("Error with editing participant!");
-        }
-    });
-
-
-}
-
-function cancel_edit_participant(participant_data){
-    var par_id = participant_data.participant_id;
-    
-    var par_row_id = '#participant_' + par_id;
-    var tr_par = $(par_row_id);
-    tr_par.empty();
-
-    render_participant(participant_data, tr_par, false);
-
-
 }
 
 function extract_participant_data(row_id){
