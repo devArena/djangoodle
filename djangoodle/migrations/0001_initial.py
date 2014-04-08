@@ -10,11 +10,11 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding model 'Event'
         db.create_table(u'djangoodle_event', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('description', self.gf('django.db.models.fields.TextField')()),
-            ('time_of_creation', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 12, 17, 0, 0))),
+            ('time_of_creation', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 4, 8, 0, 0))),
             ('email_of_creator', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=50, primary_key=True)),
         ))
         db.send_create_signal(u'djangoodle', ['Event'])
 
@@ -22,7 +22,7 @@ class Migration(SchemaMigration):
         db.create_table(u'djangoodle_eventitem', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['djangoodle.Event'])),
-            ('event_item_time', self.gf('django.db.models.fields.DateTimeField')()),
+            ('event_item_time', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 4, 8, 0, 0))),
             ('event_item_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
         ))
         db.send_create_signal(u'djangoodle', ['EventItem'])
@@ -32,7 +32,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['djangoodle.Event'])),
-            ('time_of_authorization', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 12, 17, 0, 0))),
+            ('time_of_authorization', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 4, 8, 0, 0))),
         ))
         db.send_create_signal(u'djangoodle', ['Participant'])
 
@@ -65,15 +65,15 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Event'},
             'description': ('django.db.models.fields.TextField', [], {}),
             'email_of_creator': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '50', 'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'time_of_creation': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 12, 17, 0, 0)'})
+            'time_of_creation': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 8, 0, 0)'})
         },
         u'djangoodle.eventitem': {
             'Meta': {'object_name': 'EventItem'},
             'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['djangoodle.Event']"}),
             'event_item_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'event_item_time': ('django.db.models.fields.DateTimeField', [], {}),
+            'event_item_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 8, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         u'djangoodle.participant': {
@@ -82,7 +82,7 @@ class Migration(SchemaMigration):
             'event_items': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['djangoodle.EventItem']", 'symmetrical': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'time_of_authorization': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 12, 17, 0, 0)'})
+            'time_of_authorization': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 8, 0, 0)'})
         }
     }
 
