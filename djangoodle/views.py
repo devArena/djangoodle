@@ -5,6 +5,7 @@ from django.template.context import RequestContext
 from djangoodle.models import Event, EventItem, Participant
 from django.utils import timezone
 from django.core import serializers
+from django.core.cache import cache
 import datetime
 import json
 import uuid
@@ -51,6 +52,9 @@ def create_event(request):
                 'success':True,
                 'id':event.id,
             }
+
+            cache.set(event.id, event)
+
             return HttpResponse(json.dumps(return_data), content_type="application/json") 
         except KeyError:
             HttpResponseServerError("Malformed data!")
@@ -67,7 +71,11 @@ def add_participant(request):
                         
             participant = Participant(name=p_name)
 
-            event = Event.objects.get(pk=event_id)
+            event = cache.get(event_id)
+            if event is None:
+                event = Event.objects.get(pk=event_id)
+                cache.set(event_id, event)
+
             event.participant_set.add(participant)
             
             participant.event_items.add(*selected_items)
