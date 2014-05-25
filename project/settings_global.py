@@ -6,9 +6,6 @@ import os
 PROJECT_ROOT = os.getcwd()
 SITE_NAME = os.path.basename(PROJECT_ROOT)
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
